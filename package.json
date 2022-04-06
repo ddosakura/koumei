@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "koumei",
-  "version": "0.0.0",
+  "version": "0.0.0-alpha.0",
   "author": "ddosakura",
   "description": "",
   "keywords": [],
@@ -11,8 +11,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint --cache --ext .ts,tsx,mjs,.js .",
-    "lint:fix": "eslint --cache --ext .ts,tsx,mjs,.js . --fix",
+    "lint": "eslint --cache --ext .ts,tsx,mjs,js,cjs .",
+    "lint:fix": "eslint --cache --ext .ts,tsx,mjs,js,cjs . --fix",
     "test": "vitest",
     "coverage": "vitest --coverage"
   },
@@ -30,6 +30,7 @@
     "eslint": "^8.12.0",
     "eslint-config-tencent": "^1.0.4",
     "eslint-plugin-react": "^7.29.4",
+    "less": "^4.1.2",
     "react-test-renderer": "^17.0.2",
     "typescript": "^4.6.3",
     "unocss": "^0.30.11",

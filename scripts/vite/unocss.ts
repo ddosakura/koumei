@@ -22,7 +22,7 @@ const loadIconAssets = async (prefix: string, path: string) => {
     }
     try {
       await cleanupSVG(svg);
-      if (!name.startsWith('nomask-')) {
+      if (!name.endsWith('-colorful')) {
         await parseColors(svg, {
           defaultColor: 'currentColor',
           callback: (attr, colorStr, color) => (!color || isEmptyColor(color) ? colorStr : 'currentColor'),
@@ -34,7 +34,8 @@ const loadIconAssets = async (prefix: string, path: string) => {
       iconSet.remove(name);
       return;
     }
-    iconSet.fromSVG(name.replace('icon-24-', '').replace('nomask-', ''), svg);
+    console.log(name, name.replace(/-colorful$/, ''));
+    iconSet.fromSVG(name.replace(/-colorful$/, ''), svg);
   });
   return iconSet.export();
 };

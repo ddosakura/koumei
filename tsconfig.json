@@ -4,6 +4,10 @@
     "paths": {
       "@bql/*": ["packages/*/src"],
     },
+    "types": [
+      "node",
+      "vite/client",
+    ],
 
     "target": "ESNext",
     "useDefineForClassFields": true,
@@ -22,6 +26,7 @@
     "jsx": "react-jsx"
   },
   "include": [
+    ".pnpmfile.cjs",
     ".eslintrc.js",
     "vite.config.ts",
     "./scripts",
