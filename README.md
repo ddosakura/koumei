@@ -2,8 +2,15 @@
 
 ## QuickStart
 
+1. 安装依赖
+
 ```bash
+./install.sh
 ```
+
+2. 安装 vscode 插件
+
++ eslint
 
 ### QA
 

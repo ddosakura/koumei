@@ -41,7 +41,7 @@ const loadIconAssets = async (prefix: string, path: string) => {
 const useIconCache = true;
 const iconCache = new Map<string, ReturnType<typeof loadIconAssets>>();
 const collections = Object.fromEntries(Object.entries({
-  'koumei': 'assets',
+  koumei: 'assets',
 }).map(([prefix, path]) => [prefix, () => {
   if (!useIconCache) return loadIconAssets(prefix, path);
   if (!iconCache.has(prefix)) iconCache.set(prefix, loadIconAssets(prefix, path));
@@ -52,4 +52,4 @@ export default unocss({
   presets: [
     unocssPresetIcons({ collections }),
   ],
-})
+});
