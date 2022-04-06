@@ -3,17 +3,30 @@
 const pkg = await fs.readJson('./package.json');
 // await $`cat package.json | grep name`
 
-const { version } = pkg;
+const { version, author, license, repository } = pkg;
 $`echo ${version}`;
 
 await Promise.all(['ds'].map(async (name) => {
   const pkg = await fs.readJson(`./packages/${name}/package.json`);
+  $`echo ${pkg.peerDependencies?.react}`;
   await fs.writeJson(`./packages/${name}/package.json`, {
+    files: [
+      'dist',
+    ],
+    main: './dist/index.js',
+    module: './dist/index.js',
+    typings: './dist/index.d.ts',
+    description: '',
+    keywords: [],
+    dependencies: {},
     ...pkg,
     version,
-    peerDependencies: {
+    author,
+    license,
+    repository,
+    peerDependencies: pkg.peerDependencies?.react ? {
       react: '^16.8.0 || ^17.0.0',
-    },
+    } : {},
   }, {
     spaces: 2,
   });

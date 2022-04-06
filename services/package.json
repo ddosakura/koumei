@@ -1,0 +1,7 @@
+{
+  "name": "services",
+  "dependencies": {
+    "feedparser": "^2.2.10"
+  },
+  "private": true
+}

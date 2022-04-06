@@ -2,6 +2,7 @@
 node_modules
 .pnpm-store
 dist
+!packages/node/dist
 coverage
 /tmp
 stats.html

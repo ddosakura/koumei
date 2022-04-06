@@ -29,8 +29,9 @@
     ".pnpmfile.cjs",
     ".eslintrc.js",
     "vite.config.ts",
-    "./scripts",
-    "./src",
     "./packages",
+    "./scripts",
+    "./services",
+    "./src",
   ]
 }
