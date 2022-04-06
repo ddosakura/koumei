@@ -1,0 +1,10 @@
+{
+  "name": "@bql/ds",
+  "version": "0.0.0",
+  "author": "ddosakura",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "repository": "https://github.com/ddosakura/koumei.git",
+  "dependencies": {}
+}

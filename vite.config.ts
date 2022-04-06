@@ -1,10 +1,16 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import visualizer from 'rollup-plugin-visualizer';
+import unocss from './scripts/vite/unocss'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
+export default defineConfig(({ command }) => ({
+  plugins: [
+    unocss,
+    command === 'build' && visualizer(),
+    react(),
+  ],
   resolve: {
     alias: [
       {
@@ -13,4 +19,4 @@ export default defineConfig({
       },
     ],
   },
-});
+}));
