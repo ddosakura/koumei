@@ -8,12 +8,12 @@ const resp = await fetch('https://acg.rip/.xml?term=Koumei');
 // console.log(text);
 // const data = (new DOMParser()).parseFromString(text, 'text/xml');
 
-resp.body(feedparser);
+resp.body.pipe(feedparser);
 
-const data = await (new Promise((r) => {
+const stream = await (new Promise((r) => {
   feedparser.on('readable', function () {
     r(this);
   });
 }));
 
-console.log(data.item());
+console.log(stream.read());
