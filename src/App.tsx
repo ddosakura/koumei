@@ -20,22 +20,23 @@ function App() {
 const ExampleApp: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data } = useQuery<XMLHttpRequest>('koumei', ({ signal }) => new Promise((resolve, reject) => {
-    reject('CORS');
-    // const xhr = new XMLHttpRequest();
+    const url = new URL('http://localhost:8080/api/rss/2json');
+    url.searchParams.set('url', 'https://acg.rip/.xml?term=Koumei');
+    const xhr = new XMLHttpRequest();
     // xhr.withCredentials = true;
-    // xhr.addEventListener('load', () => resolve(xhr));
-    // signal?.addEventListener('abort', () => {
-    //   xhr.abort();
-    //   reject();
-    // });
-    // xhr.open('GET', 'https://acg.rip/.xml?term=Koumei');
-    // xhr.send();
+    xhr.addEventListener('load', () => resolve(JSON.parse(xhr.responseText)));
+    signal?.addEventListener('abort', () => {
+      xhr.abort();
+      reject();
+    });
+    xhr.open('GET', url);
+    xhr.send();
   }));
 
   return (
-    <>
-      { data }
-    </>
+    <pre>
+      { JSON.stringify(data, null, 2) }
+    </pre>
   );
 };
 
