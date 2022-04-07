@@ -1,4 +1,9 @@
-# koumei
+# 派对浪客 Koumei Project
+
+## Links
+
++ [Eiko Services](https://github.com/ddosakura/eiko)
++ [Nanami Images](https://github.com/ddosakura/nanami)
 
 ## QuickStart
 
