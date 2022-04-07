@@ -6,9 +6,9 @@ const pkg = await fs.readJson('./package.json');
 const { version, author, license, repository } = pkg;
 $`echo ${version}`;
 
-await Promise.all(['ds'].map(async (name) => {
+await Promise.all(['ds', 'video-player'].map(async (name) => {
   const pkg = await fs.readJson(`./packages/${name}/package.json`);
-  $`echo ${pkg.peerDependencies?.react}`;
+  // $`echo ${pkg.peerDependencies?.react}`;
   await fs.writeJson(`./packages/${name}/package.json`, {
     files: [
       'dist',

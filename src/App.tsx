@@ -1,4 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+import { useEffect, useRef } from 'react';
 import { QueryClient, QueryClientProvider, ReactQueryDevtools, useQuery } from '@bql/ds';
+import { play } from '@bql/video-player';
 
 const queryClient = new QueryClient();
 
@@ -12,10 +16,21 @@ function App() {
           <span className="i-koumei:vite" />
         </p>
       </header>
-      <ExampleApp />
+      {/* <ExampleApp /> */}
+      <VideoPlayer />
     </QueryClientProvider>
   );
 }
+
+const VideoPlayer: React.FC = () => {
+  const url = 'http://localhost:8383/conan.m3u8';
+  const container = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (!container.current) return;
+    play(container.current, url);
+  }, []);
+  return <div ref={container} />;
+};
 
 const ExampleApp: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
