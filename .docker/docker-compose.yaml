@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  koumei:
+    image: node:16.14
+    volumes:
+      - type: bind
+        source: d:/devenv/koumei
+        target: /web
+    tty: true
+    entrypoint: ["bash"]

@@ -27,6 +27,8 @@
 
 ```
 # .git/config
+[core]
+  autocrlf = false
 [http]
   proxy =
   sslcainfo =
