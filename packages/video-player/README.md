@@ -23,7 +23,7 @@ docker run -v $(pwd):$(pwd) -w $(pwd) jrottenberg/ffmpeg \
 	conan.m3u8
 # https://hub.docker.com/r/denoland/deno
 # https://www.denojs.cn/manual/examples/file_server#using-the-stdhttp-file-server
-docker run -v $(pwd):/data -it --init -p 8383:8383 denoland/deno:1.20.4 \
+docker run -v $(pwd):/data -it --rm --init -p 8383:8383 denoland/deno:1.20.4 \
 	run --allow-net --allow-read https://deno.land/std@0.134.0/http/file_server.ts /data -p 8383
 ```
 
