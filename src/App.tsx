@@ -23,7 +23,8 @@ function App() {
 }
 
 const VideoPlayer: React.FC = () => {
-  const url = 'http://localhost:8383/conan.m3u8';
+  const id = (new URL(location.href)).searchParams.get('id')
+  const url = id ? `/storage/bangumi/${id}.m3u8` : 'http://localhost:8383/conan.m3u8';
   const container = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (!container.current) return;
