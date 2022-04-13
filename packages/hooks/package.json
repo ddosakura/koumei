@@ -8,16 +8,14 @@
   "description": "",
   "keywords": [],
   "dependencies": {
-    "dplayer": "^1.26.0",
-    "hls.js": "^1.1.5"
+    "ahooks": "^3.3.0"
   },
-  "name": "@bql/video-player",
+  "name": "@bql/hooks",
   "version": "0.0.0-alpha.0",
   "author": "ddosakura",
   "license": "ISC",
   "repository": "https://github.com/ddosakura/koumei.git",
-  "devDependencies": {
-    "@types/dplayer": "^1.25.2"
-  },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0"
+  }
 }

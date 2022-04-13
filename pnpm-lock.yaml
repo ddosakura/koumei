@@ -67,6 +67,14 @@ importers:
       react-query: 3.34.19_react@17.0.2
       zangodb: 1.0.8
 
+  packages/hooks:
+    specifiers:
+      ahooks: ^3.3.0
+      react: ^17.0.2
+    dependencies:
+      ahooks: 3.3.0_react@17.0.2
+      react: 17.0.2
+
   packages/video-player:
     specifiers:
       '@types/dplayer': ^1.25.2
@@ -535,6 +543,10 @@ packages:
     resolution: {integrity: sha512-bkTVZkK3Vi7N7eX2FUBnqKhCjTaeRLkhvY8H6zolatbSTtjPPdxyUzhE3C29sIBYRRq1kQHSduFgCHKg5VF3Jw==}
     dev: true
 
+  /@types/js-cookie/2.2.7:
+    resolution: {integrity: sha512-aLkWa0C0vO5b4Sr798E26QgOkss68Un0bLjs7u9qxzPT5CG+8DuNTffWES58YzJs3hrVAOs1wonycqEBqNJubA==}
+    dev: false
+
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
     dev: true
@@ -886,6 +898,27 @@ packages:
 
   /addressparser/1.0.1:
     resolution: {integrity: sha1-R6++GiqSYhkdtoOOT9HTm0CCF0Y=}
+    dev: false
+
+  /ahooks-v3-count/1.0.0:
+    resolution: {integrity: sha512-V7uUvAwnimu6eh/PED4mCDjE7tokeZQLKlxg9lCTMPhN+NjsSbtdacByVlR1oluXQzD3MOw55wylDmQo4+S9ZQ==}
+    dev: false
+
+  /ahooks/3.3.0_react@17.0.2:
+    resolution: {integrity: sha512-X1TIXvRNgWrx9Cfxa3QDnHttnphT1otSCNjELs1Yf88cPHt6Fp96MWHx83Zhkb3wcRbWzeQHQTISDTKq4itIbw==}
+    engines: {node: '>=8.0.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@types/js-cookie': 2.2.7
+      ahooks-v3-count: 1.0.0
+      dayjs: 1.11.0
+      intersection-observer: 0.12.0
+      js-cookie: 2.2.1
+      lodash: 4.17.21
+      react: 17.0.2
+      resize-observer-polyfill: 1.5.1
+      screenfull: 5.2.0
     dev: false
 
   /ajv/6.12.6:
@@ -1284,6 +1317,10 @@ packages:
     dependencies:
       es5-ext: 0.10.59
       type: 1.2.0
+    dev: false
+
+  /dayjs/1.11.0:
+    resolution: {integrity: sha512-JLC809s6Y948/FuCZPm5IX8rRhQwOiyMb2TfVVQEixG7P8Lm/gt5S7yoQZmC8x1UehI9Pb7sksEt4xx14m+7Ug==}
     dev: false
 
   /debug/2.6.9:
@@ -2287,6 +2324,7 @@ packages:
 
   /hls.js/1.1.5:
     resolution: {integrity: sha512-mQX5TSNtJEzGo5HPpvcQgCu+BWoKDQM6YYtg/KbgWkmVAcqOCvSTi0SuqG2ZJLXxIzdnFcKU2z7Mrw/YQWhPOA==}
+    dev: false
 
   /htmlparser2/6.1.0:
     resolution: {integrity: sha512-gyyPk6rgonLFEDGoeRgQNaEUvdJ4ktTmmUh/h2t7s+M8oPpIPxgNACWa+6ESR57kXstwqPiCut0V8NRpcwgU7A==}
@@ -2353,6 +2391,10 @@ packages:
       has: 1.0.3
       side-channel: 1.0.4
     dev: true
+
+  /intersection-observer/0.12.0:
+    resolution: {integrity: sha512-2Vkz8z46Dv401zTWudDGwO7KiGHNDkMv417T5ItcNYfmvHR/1qCTVBO9vwH8zZmQ0WkA/1ARwpysR9bsnop4NQ==}
+    dev: false
 
   /is-bigint/1.0.4:
     resolution: {integrity: sha512-zB9CruMamjym81i2JZ3UMn54PKGsQzsJeo6xvN3HJJ4CAsQNB6iRutp2To77OfCNuoxspsIhzaPoO1zyCEhFOg==}
@@ -2500,6 +2542,10 @@ packages:
     hasBin: true
     dev: true
 
+  /js-cookie/2.2.1:
+    resolution: {integrity: sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==}
+    dev: false
+
   /js-sha3/0.8.0:
     resolution: {integrity: sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==}
     dev: false
@@ -2617,6 +2663,10 @@ packages:
 
   /lodash.uniq/4.5.0:
     resolution: {integrity: sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=}
+    dev: false
+
+  /lodash/4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
     dev: false
 
   /loose-envify/1.4.0:
@@ -3231,6 +3281,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /resize-observer-polyfill/1.5.1:
+    resolution: {integrity: sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==}
+    dev: false
+
   /resolve-from/4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
     engines: {node: '>=4'}
@@ -3304,6 +3358,11 @@ packages:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
+
+  /screenfull/5.2.0:
+    resolution: {integrity: sha512-9BakfsO2aUQN2K9Fdbj87RJIEZ82Q9IGim7FqM5OsebfoFC6ZHXgDq/KvniuLTPdeM8wY2o6Dj3WQ7KeQCj3cA==}
+    engines: {node: '>=0.10.0'}
+    dev: false
 
   /semver/5.7.1:
     resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==}

@@ -34,7 +34,7 @@ const loadIconAssets = async (prefix: string, path: string) => {
       iconSet.remove(name);
       return;
     }
-    console.log(name, name.replace(/-colorful$/, ''));
+    // console.log(name, name.replace(/-colorful$/, ''));
     iconSet.fromSVG(name.replace(/-colorful$/, ''), svg);
   });
   return iconSet.export();
