@@ -50,3 +50,4 @@
 
 + bangumi
 + rss
++ https://lexical.dev/

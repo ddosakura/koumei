@@ -37,13 +37,15 @@ function App() {
         <button onClick={() => setMode(0)}>VideoPlayer</button>
         <button onClick={() => setMode(1)}>Resources</button>
         <button onClick={() => setMode(2)}>Collections</button>
-        <button onClick={() => setMode(3)}>Search</button>
+        <button onClick={() => setMode(3)}>FFmpeg</button>
+        <button onClick={() => setMode(4)}>Search</button>
       </div>
       {(() => {
         switch (mode) {
           case 0: return <VideoPlayer id={vid} />;
           case 1: return <ResourceModule play={play} />;
           case 2: return <CollectionModule play={play} />;
+          case 3: return <FFmpegModule />;
           default: return <SearchModule />;
         }
       })()}
@@ -51,7 +53,23 @@ function App() {
   );
 }
 
-const SyncModule: React.FC<{ name: string }> = ({ name }) => {
+const FFmpegModule: React.FC = () => {
+  const { data, refetch } = useQuery('/api/coss/hls/status', async ({
+    queryKey: [base],
+    signal,
+  }) => {
+    const url = new URL(base, location.href);
+    const resp = await fetch(url.toString(), { signal });
+    return await resp.json() as {
+      running: string[]
+      waiting: string[]
+    };
+  });
+  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+};
+
+const SyncModule: React.FC<{ collection: Collection }> = ({ collection }) => {
+  const { name, searchKey, reFilter } = collection;
   const [latest, setLatest] = useState(1);
   const [isSync, setIsSync] = useState(false);
   const [data, setData] = useState();
@@ -71,6 +89,7 @@ const SyncModule: React.FC<{ name: string }> = ({ name }) => {
   );
 
   return <div>
+    <SearchModule defaultKey={searchKey} defaultFilter={reFilter} defaultName={name} />
     <div>
       <span>latest:</span>
       <input type="number" value={latest} onInput={e => setLatest(parseInt(e.currentTarget.value, 10))} />
@@ -80,11 +99,17 @@ const SyncModule: React.FC<{ name: string }> = ({ name }) => {
   </div>;
 };
 
+interface Collection {
+  _id: string
+  name: string
+  searchKey: string
+  reFilter: string
+}
 const CollectionModule: React.FC<{
   play: (id: string) => void
 }> = ({ play }) => {
   const [page, debouncedPage, setPage] = useDebounceInput(1);
-  const { data } = useQuery(['/api/bangumi/collections', debouncedPage] as const, async ({
+  const { data, refetch } = useQuery(['/api/bangumi/collections', debouncedPage] as const, async ({
     queryKey: [base, page],
     signal,
   }) => {
@@ -96,12 +121,6 @@ const CollectionModule: React.FC<{
       list: Collection[]
     };
   });
-  interface Collection {
-    _id: string
-    name: string
-    searchKey: string
-    reFilter: string
-  }
 
   const [collection, setCollection] = useState<Collection>();
   return <div>
@@ -112,32 +131,41 @@ const CollectionModule: React.FC<{
       <span>total: {data?.total ?? -1}</span>
     </div>
     <div style={{ overflow: 'scroll', height: '300px' }}>
-      {data?.list.map(item => <div key={item._id} style={{ border: '1px solid #000' }}>
+      {data?.list.map(item => <div
+        key={item._id}
+        style={{ border: collection?._id === item._id ? '1px solid red' : '1px solid #000' }}
+      >
         <div>
-          <span>合集名：{item.name}</span>
+          <span>【合集名】{item.name}</span>
           <button onClick={() => setCollection(item)}>select</button>
         </div>
         <div>
-          <span>搜索关键词：{item.searchKey}</span>
-          <span>过滤正则：{item.reFilter}</span>
+          <span>【搜索关键词】{item.searchKey}</span>
+          <span>【过滤正则】{item.reFilter}</span>
         </div>
       </div>) ?? <div>Loading...</div>}
     </div>
     {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
     <hr />
-    {collection ? <ResourceModule play={play} cid={collection._id} /> : <span>Select Collection Please</span>}
+    {collection ? <ResourceModule play={play} collection={collection} onDelete={() => {
+      setCollection(undefined);
+      refetch();
+    }} /> : <span>Select Collection Please</span>}
     <hr />
-    {collection ? <SyncModule name={collection.name} /> : <span>Select Collection Please</span>}
+    {collection ? <SyncModule collection={collection} /> : <span>Select Collection Please</span>}
   </div>;
 };
 
 const ResourceModule: React.FC<{
   play: (id: string) => void
-  cid?: string
-}> = ({ play, cid }) => {
+  collection?: Collection
+  onDelete?: () => void
+}> = ({ play, collection, onDelete }) => {
   const [page, debouncedPage, setPage] = useDebounceInput(1);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data } = useQuery([`/api/bangumi/resources${cid ? `/${cid}` : ''}`, debouncedPage] as const, async ({
+  const { data } = useQuery([
+    `/api/bangumi/resources${collection ? `/${collection._id}` : ''}`, debouncedPage,
+  ] as const, async ({
     queryKey: [base, page],
     signal,
   }) => {
@@ -149,12 +177,31 @@ const ResourceModule: React.FC<{
       list: {
         _id: string
         title: string
+        pubDate: string
         files?: Record<string, string>
         hls?: Record<string, boolean>
       }[]
     };
   });
+  const del = async () => {
+    if (!collection) return;
+    const ok = confirm(`DELETE ${collection.name}`);
+    if (!ok) return;
+    const url = new URL('/api/bangumi/collection', location.href);
+    url.searchParams.set('id', collection._id);
+    url.searchParams.set('coss', 'true');
+    await fetch(url.toString(), { method: 'DELETE' });
+    onDelete?.();
+  };
+  const header = collection ? <div>
+    <span>【当前合集】</span>
+    <span>{collection.name}</span>
+    <button onClick={() => {
+      del();
+    }}>DELETE</button>
+  </div> : null;
   return <div>
+    {header}
     <div>
       <span>page:</span>
       <input type="number" value={page} onInput={e => setPage(parseInt(e.currentTarget.value, 10))} />
@@ -163,6 +210,7 @@ const ResourceModule: React.FC<{
     </div>
     <div style={{ overflow: 'scroll', height: '600px' }}>
       {data?.list.map(item => <div key={item._id} style={{ border: '1px solid #000' }}>
+        <div>({new Date(item.pubDate).toLocaleString()})</div>
         <div>资源【{item.title}】已同步数据：</div>
         <div>
           {item.files ? Object.entries(item.files).map(([id, name]) => <div key={id} style={{ display: 'flex' }}>
@@ -176,17 +224,27 @@ const ResourceModule: React.FC<{
 };
 
 const VideoPlayer: React.FC<{ id?: string }> = ({ id }) => {
-  const url = id ? `/storage/bangumi/hls/${id}/index.m3u8` : 'http://localhost:8383/conan.m3u8';
+  const url = id ? `/storage/bangumi/hls/${id.replace('--', '.')}/index.m3u8` : 'http://localhost:8383/conan.m3u8';
   const container = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (!container.current) return;
     play(container.current, url);
   }, []);
-  return <div ref={container} />;
+  return <div>
+    <div style={{ padding: '10px 20px' }}>
+      <span>id: </span>
+      <input value={id} />
+    </div>
+    <div ref={container} />
+  </div>;
 };
 
-const SearchModule: React.FC = () => {
-  const [key, debouncedKey, setKey] = useDebounceInput('test');
+const SearchModule: React.FC<{
+  defaultKey?: string
+  defaultFilter?: string
+  defaultName?: string
+}> = ({ defaultKey = 'test', defaultFilter = '', defaultName = '' }) => {
+  const [key, debouncedKey, setKey] = useDebounceInput(defaultKey);
   const { data: list } = useQuery(['/api/bangumi/search', debouncedKey] as const, async ({
     queryKey: [base, key],
     signal,
@@ -201,7 +259,7 @@ const SearchModule: React.FC = () => {
     }[];
   });
 
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState(defaultFilter);
   const reFilter = (() => {
     try {
       if (!filter) return;
@@ -213,7 +271,7 @@ const SearchModule: React.FC = () => {
   const filteredList = reFilter && list ? list.filter(item => reFilter.test(item.title)) : list;
 
 
-  const [collectionName, setCollectionName] = useState('');
+  const [collectionName, setCollectionName] = useState(defaultName);
   const [data, setData] = useState();
   const { run } = useThrottleFn(async () => {
     if (!collectionName) return;
@@ -225,8 +283,15 @@ const SearchModule: React.FC = () => {
     setData(await resp.json());
   }, { wait: 1000 });
 
+  const reset = () => {
+    setKey(defaultKey);
+    setFilter(defaultFilter);
+  };
   return (
     <div>
+      <div>
+        <button onClick={reset}>Reset</button>
+      </div>
       <div>
         <span>Key</span>
         <input value={key} onInput={e => setKey(e.currentTarget.value)} />
@@ -246,7 +311,7 @@ const SearchModule: React.FC = () => {
           <span>{item.title}</span>
         </div>) ?? <div>Loading...</div>}
       </div>
-      <pre>{JSON.stringify(data, null, 2)}</pre>;
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
 };
