@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 
 const pkg = require('./package.json');
-const { react } = pkg.dependencies;
+const { react, 'react-dom': reactDom } = pkg.dependencies;
 
 function readPackage(pkg) {
   if (['eslint-config-tencent'].includes(pkg.name)) {
@@ -18,7 +18,9 @@ function readPackage(pkg) {
   }
   if (pkg.name.startsWith('@bql/') && pkg.peerDependencies && pkg.peerDependencies.react) {
     delete pkg.peerDependencies.react;
+    delete pkg.peerDependencies['react-dom'];
     pkg.dependencies.react = react;
+    pkg.dependencies['react-dom'] = reactDom;
   }
   return pkg;
 }

@@ -1,0 +1,19 @@
+{
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "description": "",
+  "keywords": [],
+  "dependencies": {},
+  "name": "@bql/game-engine",
+  "version": "0.0.0-alpha.0",
+  "author": "ddosakura",
+  "license": "ISC",
+  "repository": "https://github.com/ddosakura/koumei.git",
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0"
+  }
+}

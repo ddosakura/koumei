@@ -6,7 +6,21 @@ const pkg = await fs.readJson('./package.json');
 const { version, author, license, repository } = pkg;
 $`echo ${version}`;
 
-await Promise.all(['ds', 'video-player', 'shared', 'hooks'].map(async (name) => {
+await Promise.all([
+  // vanilla js
+  'shared',
+  'video-player',
+
+  // react
+  'hooks',
+  'ds',
+
+  // react-dom
+  'micro',
+
+  // other
+  'game-engine',
+].map(async (name) => {
   const pkg = await fs.readJson(`./packages/${name}/package.json`);
   // $`echo ${pkg.peerDependencies?.react}`;
   await fs.writeJson(`./packages/${name}/package.json`, {
@@ -24,9 +38,10 @@ await Promise.all(['ds', 'video-player', 'shared', 'hooks'].map(async (name) => 
     author,
     license,
     repository,
-    peerDependencies: pkg.peerDependencies?.react ? {
-      react: '^16.8.0 || ^17.0.0',
-    } : {},
+    peerDependencies: {
+      ...(pkg.peerDependencies?.react ? { react: '^16.8.0 || ^17.0.0' } : {}),
+      ...(pkg.peerDependencies?.['react-dom'] ? { 'react-dom': '^16.8.0 || ^17.0.0' } : {}),
+    },
   }, {
     spaces: 2,
   });

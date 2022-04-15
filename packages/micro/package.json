@@ -1,0 +1,22 @@
+{
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "description": "",
+  "keywords": [],
+  "dependencies": {
+    "react-router-dom": "6"
+  },
+  "name": "@bql/micro",
+  "version": "0.0.0-alpha.0",
+  "author": "ddosakura",
+  "license": "ISC",
+  "repository": "https://github.com/ddosakura/koumei.git",
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0"
+  }
+}
