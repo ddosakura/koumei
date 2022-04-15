@@ -22,6 +22,8 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-multi-spaces': 'error',
     'jsx-quotes': ['error', 'prefer-double'],
+
+    'react/prop-types': 0,
   },
   overrides: [
     {

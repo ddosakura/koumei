@@ -17,6 +17,13 @@
 
 + eslint
 
+3. 环境变量设置
+
+```conf
+# e.g.
+API_ROOT=http://localhost:8088
+```
+
 ### QA
 
 本仓库支持通过 Docker Dev Environments (Windows) 开发
