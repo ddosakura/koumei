@@ -89,7 +89,7 @@ const SyncModule: React.FC<{ collection: Collection }> = ({ collection }) => {
   );
 
   return <div>
-    <SearchModule defaultKey={searchKey} defaultFilter={reFilter} defaultName={name} />
+    <SearchModule collection={collection} />
     <div>
       <span>latest:</span>
       <input type="number" value={latest} onInput={e => setLatest(parseInt(e.currentTarget.value, 10))} />
@@ -233,17 +233,25 @@ const VideoPlayer: React.FC<{ id?: string }> = ({ id }) => {
   return <div>
     <div style={{ padding: '10px 20px' }}>
       <span>id: </span>
-      <input value={id} />
+      <input value={id} readOnly />
     </div>
     <div ref={container} />
   </div>;
 };
 
-const SearchModule: React.FC<{
-  defaultKey?: string
-  defaultFilter?: string
-  defaultName?: string
-}> = ({ defaultKey = 'test', defaultFilter = '', defaultName = '' }) => {
+const SearchModule: React.FC<{ collection?: Collection }> = ({ collection }) => {
+  const {
+    searchKey: defaultKey = 'test',
+    reFilter: defaultFilter = '',
+    name: defaultName = '',
+  } = collection ?? {};
+  const reset = () => {
+    if (!collection) return;
+    setKey(collection.searchKey);
+    setFilter(collection.reFilter);
+    setCollectionName(collection.name);
+  };
+  useEffect(reset, [collection]);
   const [key, debouncedKey, setKey] = useDebounceInput(defaultKey);
   const { data: list } = useQuery(['/api/bangumi/search', debouncedKey] as const, async ({
     queryKey: [base, key],
@@ -283,10 +291,6 @@ const SearchModule: React.FC<{
     setData(await resp.json());
   }, { wait: 1000 });
 
-  const reset = () => {
-    setKey(defaultKey);
-    setFilter(defaultFilter);
-  };
   return (
     <div>
       <div>
