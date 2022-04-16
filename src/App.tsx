@@ -2,10 +2,9 @@ import { lazy, Suspense } from 'react';
 import { QueryClient, QueryClientProvider, ReactQueryDevtools } from '@bql/ds';
 import { MicroRouter, Routes, Route } from '@bql/micro';
 
+import type { GamePackage } from '@bql/hakke';
+const GameEngine = lazy(async () => ({ default: await (await import('@bql/hakke')).GameEngine }));
 const Bangumi = lazy(() => import('./Bangumi'));
-
-// import { GameEngine } from '@bql/game-engine';
-const GameEngine = lazy(async () => ({ default: await (await import('@bql/game-engine')).GameEngine }));
 
 const queryClient = new QueryClient();
 
@@ -24,7 +23,11 @@ function App() {
       <MicroRouter>
         <Routes>
           <Route path="/" element={<Suspense fallback={<>...</>}><Bangumi /></Suspense>} />
-          <Route path="/game" element={<Suspense fallback={<>...</>}><GameEngine /></Suspense>} />
+          <Route path="/game" element={<Suspense fallback={<>正在加载 Hakke Core</>}>
+            <div style={{ width: '100vw', height: '100vh' }}>
+              <GameEngine pkg={gamePackage} saveDataList={[]} />
+            </div>
+          </Suspense>} />
         </Routes>
       </MicroRouter>
     </QueryClientProvider>
@@ -32,3 +35,24 @@ function App() {
 }
 
 export default App;
+
+const gamePackage: GamePackage<'test'> = {
+  info: {
+    name: 'galtest',
+    author: 'unknow',
+    description: 'test gal',
+    version: { major: 0, minor: 0, patch: 0 },
+  },
+  version: { major: 0, minor: 0, patch: 0 },
+  engines: { test: { type: 'gal', version: { major: 0, minor: 0, patch: 0 } } },
+  mode: ['simple'],
+  init: {
+    newGame: {
+      save: { core: { tmp: 0 }, engines: { test: { tmp: 0 } } },
+      start: ['test'],
+    },
+  },
+  menu: {
+    skipIfNoSaveData: false,
+  },
+};

@@ -8,6 +8,9 @@ import unocss from './scripts/vite/unocss';
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
+    build: {
+      chunkSizeWarningLimit: 512,
+    },
     server: {
       proxy: {
         '/api': env.API_ROOT,

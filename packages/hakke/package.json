@@ -7,8 +7,14 @@
   "typings": "./dist/index.d.ts",
   "description": "",
   "keywords": [],
-  "dependencies": {},
-  "name": "@bql/game-engine",
+  "dependencies": {
+    "@xstate/inspect": "^0.6.5",
+    "@xstate/react": "^3.0.0",
+    "rxjs": "^7.5.5",
+    "ws": "^8.5.0",
+    "xstate": "^4.31.0"
+  },
+  "name": "@bql/hakke",
   "version": "0.0.0-alpha.0",
   "author": "ddosakura",
   "license": "ISC",

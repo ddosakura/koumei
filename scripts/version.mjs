@@ -19,7 +19,7 @@ await Promise.all([
   'micro',
 
   // other
-  'game-engine',
+  'hakke',
 ].map(async (name) => {
   const pkg = await fs.readJson(`./packages/${name}/package.json`);
   // $`echo ${pkg.peerDependencies?.react}`;

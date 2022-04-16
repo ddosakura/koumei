@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { useQuery } from '@bql/ds';
-import { play } from '@bql/video-player';
 import { useDebounce, useThrottleFn } from '@bql/hooks';
 
 function useDebounceInput<T>(initialValue: T) {
@@ -19,7 +18,7 @@ export default function Bangumi() {
   };
   return <>
     <div>
-      <button onClick={() => setMode(0)}>VideoPlayer</button>
+      <button onClick={() => setMode(0)}>VideoPlayerModule</button>
       <button onClick={() => setMode(1)}>Resources</button>
       <button onClick={() => setMode(2)}>Collections</button>
       <button onClick={() => setMode(3)}>FFmpeg</button>
@@ -27,7 +26,7 @@ export default function Bangumi() {
     </div>
     {(() => {
       switch (mode) {
-        case 0: return <VideoPlayer id={vid} />;
+        case 0: return <VideoPlayerModule id={vid} />;
         case 1: return <ResourceModule play={play} />;
         case 2: return <CollectionModule play={play} />;
         case 3: return <FFmpegModule />;
@@ -207,19 +206,17 @@ const ResourceModule: React.FC<{
   </div>;
 };
 
-const VideoPlayer: React.FC<{ id?: string }> = ({ id }) => {
+const VideoPlayer = lazy(() => import('./components/VideoPlayer'));
+const VideoPlayerModule: React.FC<{ id?: string }> = ({ id }) => {
   const url = id ? `/storage/bangumi/hls/${id.replace('--', '.')}/index.m3u8` : 'http://localhost:8383/conan.m3u8';
-  const container = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    if (!container.current) return;
-    play(container.current, url);
-  }, []);
   return <div>
     <div style={{ padding: '10px 20px' }}>
       <span>id: </span>
       <input value={id} readOnly />
     </div>
-    <div ref={container} />
+    <Suspense fallback={<>...</>}>
+      <VideoPlayer url={url} />
+    </Suspense>
   </div>;
 };
 

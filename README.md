@@ -15,7 +15,8 @@
 
 2. 安装 vscode 插件
 
-+ eslint
++ ESLint
++ XState VSCode
 
 3. 环境变量设置
 
@@ -57,4 +58,3 @@ API_ROOT=http://localhost:8088
 
 + bangumi
 + rss
-+ https://lexical.dev/
