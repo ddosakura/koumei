@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@bql/ds';
 import { useDebounce, useThrottleFn } from '@bql/hooks';
 
@@ -256,8 +256,8 @@ const SearchModule: React.FC<{ collection?: Collection }> = ({ collection }) => 
       return;
     }
   })();
-  const filteredList = reFilter && list ? list.filter(item => reFilter.test(item.title)) : list;
-
+  const listx = list?.map ? list : undefined; // 兼容后端非数组返回
+  const filteredList = reFilter && listx ? listx.filter(item => reFilter.test(item.title)) : listx;
 
   const [collectionName, setCollectionName] = useState(defaultName);
   const [data, setData] = useState();
