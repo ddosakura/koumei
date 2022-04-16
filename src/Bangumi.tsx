@@ -2,6 +2,8 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import { useQuery } from '@bql/ds';
 import { useDebounce, useThrottleFn } from '@bql/hooks';
 
+import { VideoPlayer } from './components';
+
 function useDebounceInput<T>(initialValue: T) {
   const [value, setValue] = useState(initialValue);
   const debouncedValue = useDebounce(value, { wait: 500 });
@@ -206,7 +208,6 @@ const ResourceModule: React.FC<{
   </div>;
 };
 
-const VideoPlayer = lazy(() => import('./components/VideoPlayer'));
 const VideoPlayerModule: React.FC<{ id?: string }> = ({ id }) => {
   const url = id ? `/storage/bangumi/hls/${id.replace('--', '.')}/index.m3u8` : 'http://localhost:8383/conan.m3u8';
   return <div>
@@ -214,9 +215,7 @@ const VideoPlayerModule: React.FC<{ id?: string }> = ({ id }) => {
       <span>id: </span>
       <input value={id} readOnly />
     </div>
-    <Suspense fallback={<>...</>}>
-      <VideoPlayer url={url} />
-    </Suspense>
+    <VideoPlayer url={url} />
   </div>;
 };
 
